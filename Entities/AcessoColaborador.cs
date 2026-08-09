@@ -7,8 +7,7 @@ public class AcessoColaborador : Entity
     public DateTime DataHoraEntrada { get; private set; }
     public DateTime? DataHoraSaida { get; private set; }
 
-    public AcessoColaborador(int id, Colaborador colaborador, DateTime dataHoraEntrada, DateTime? dataHoraSaida = null)
-        : base(id)
+    private AcessoColaborador(int id, Colaborador colaborador, DateTime dataHoraEntrada, DateTime? dataHoraSaida = null) : base(id)
     {
         Colaborador = colaborador;
         DataHoraEntrada = dataHoraEntrada;

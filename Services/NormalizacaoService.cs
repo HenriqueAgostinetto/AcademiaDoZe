@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 namespace AcademiaDoZe.Domain.Services;
 
 // servico para normalizacao de dados do dominio
-public static partial class NormalizadoService
+public static partial class NormalizacaoService
 {
     public static bool TextoVazioOuNulo(string? texto) => string.IsNullOrWhiteSpace(texto);
     public static string LimparEspacos(string? texto) => string.IsNullOrWhiteSpace(texto) ? string.Empty : EspacosRegex().Replace(texto, " ").Trim();

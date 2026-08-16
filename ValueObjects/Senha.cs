@@ -1,5 +1,6 @@
 ﻿// henrique agostinetto piva
 using AcademiaDoZe.Domain.Common;
+using AcademiaDoZe.Domain.Services;
 
 namespace AcademiaDoZe.Domain.ValueObjects;
 
@@ -10,8 +11,10 @@ public record Senha
 
     public static Result<Senha> Criar(string valor)
     {
-        if (string.IsNullOrWhiteSpace(valor)) return Result<Senha>.Failure("Senha", "SENHA_OBRIGATORIA");
-        return Result<Senha>.Success(new Senha(valor));
+        if (NormalizacaoService.TextoVazioOuNulo(valor)) return Result<Senha>.Failure("Senha", "SENHA_OBRIGATORIO");
+        var textoLimpo = NormalizacaoService.LimparEspacos(valor);
+        if (textoLimpo.Length < 6 || !textoLimpo.Any(char.IsUpper)) return Result<Senha>.Failure("Senha", "SENHA_FORMATO");
+        return Result<Senha>.Success(new Senha(textoLimpo));
     }
     public override string ToString() => Valor;
 }

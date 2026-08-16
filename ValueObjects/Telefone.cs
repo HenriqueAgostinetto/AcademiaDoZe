@@ -11,8 +11,8 @@ public record Telefone
 
     public static Result<Telefone> Criar(string valor)
     {
-        if (NormalizadoService.TextoVazioOuNulo(valor)) return Result<Telefone>.Failure("Telefone", "TELEFONE_OBRIGATORIO");
-        var textoLimpo = NormalizadoService.LimparEDigitos(valor);
+        if (NormalizacaoService.TextoVazioOuNulo(valor)) return Result<Telefone>.Failure("Telefone", "TELEFONE_OBRIGATORIO");
+        var textoLimpo = NormalizacaoService.LimparEDigitos(valor);
         if (textoLimpo.Length != 11) return Result<Telefone>.Failure("Telefone", "TELEFONE_DIGITOS");
         return Result<Telefone>.Success(new Telefone(textoLimpo));
     }

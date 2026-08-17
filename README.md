@@ -25,3 +25,10 @@ e centralizacao de regras de negocio em value objects:
 a ia reorganizou as validacoes de formato de email, cpf, cep e telefone para dentro do metodo de fabrica de cada value object, impedindo que objetos em estado invalido existam na aplicacao
 
 --------------------------------------------------------------------------------------------------------------------------------------------
+
+Utilizei o Codex para me auxilir pois durante a compilação do projeto AcademiaDoZe.Domain, ocorreram erros CS0579, indicando atributos duplicados de assembly, como TargetFrameworkAttribute, AssemblyCompanyAttribute e AssemblyVersionAttribute.
+A causa foi a organização dos projetos: a pasta do projeto de testes (AcademiaDoZe.Tests) estava dentro da pasta do projeto de domínio. Por padrão, um projeto .NET inclui recursivamente arquivos .cs presentes em suas subpastas. Assim, o AcademiaDoZe.Domain passou a compilar também os arquivos de teste e arquivos gerados automaticamente dentro de AcademiaDoZe.Tests/obj.
+Esses arquivos gerados já contêm atributos de assembly. Como o projeto de domínio também gera seus próprios atributos, o compilador encontrou duas definições para os mesmos atributos, resultando no erro de duplicação.
+Para corrigir, foi adicionada a seguinte regra ao arquivo AcademiaDoZe.Domain.csproj
+
+--------------------------------------------------------------------------------------------------------------------------------------------

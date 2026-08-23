@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <Compile Remove="AcademiaDoZe.Tests\**\*.cs" />
+    <Compile Remove="AcademiaDoZe.Infrastructure\**\*.cs" />
+    <Compile Remove="AcademiaDoZe.Infrastructure.Tests\**\*.cs" />
   </ItemGroup>
 
 </Project>

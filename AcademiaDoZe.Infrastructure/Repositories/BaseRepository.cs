@@ -1,97 +1,65 @@
-using System.Data;
 using System.Data.Common;
 using AcademiaDoZe.Infrastructure.Data;
-using AcademiaDoZe.Infrastructure.Exceptions;
 
 namespace AcademiaDoZe.Infrastructure.Repositories;
 
-public abstract class BaseRepository : IDisposable, IAsyncDisposable
+public abstract class BaseRepository : IAsyncDisposable
 {
-    protected readonly string _connectionString;
-    protected readonly DatabaseType _databaseType;
-    private DbConnection? _connection;
-    private bool _disposed;
+    private readonly string _connectionString;
+    protected DatabaseType DatabaseType { get; }
 
     protected BaseRepository(string connectionString, DatabaseType databaseType)
     {
-        _connectionString = connectionString ?? throw new InfrastructureException("STRING_CONEXAO_NULA", $"String de conexao nao pode ser nula: {nameof(connectionString)}");
-        _databaseType = databaseType;
+        _connectionString = connectionString;
+        DatabaseType = databaseType;
     }
 
-    protected virtual async Task<DbConnection> GetOpenConnectionAsync(CancellationToken cancellationToken = default)
+    protected async Task<DbCommand> CreateCommandAsync(string query, CancellationToken cancellationToken)
     {
-        try
-        {
-            await DbInitializer.InicializarAsync(_connectionString, _databaseType, cancellationToken);
-
-            if (_connection is null)
-            {
-                _connection = DbProvider.CreateConnection(_connectionString, _databaseType);
-                await _connection.OpenAsync(cancellationToken);
-            }
-            else if (_connection.State is ConnectionState.Broken or ConnectionState.Closed)
-            {
-                await _connection.CloseAsync();
-                await _connection.OpenAsync(cancellationToken);
-            }
-
-            return _connection;
-        }
-        catch (DbException ex)
-        {
-            throw new InfrastructureException("FALHA_ABRIR_CONEXAO", "Falha ao abrir conexao com o banco de dados.", ex);
-        }
+        var connection = DbProvider.CreateConnection(_connectionString, DatabaseType);
+        await connection.OpenAsync(cancellationToken);
+        var command = connection.CreateCommand();
+        command.CommandText = query;
+        return command;
     }
 
-    protected virtual async Task<DbCommand> CreateCommandAsync(string commandText, CancellationToken cancellationToken = default)
+    protected async Task<T> ExecuteAsync<T>(string query, Func<DbCommand, Task<T>> operation, CancellationToken cancellationToken)
     {
-        var connection = await GetOpenConnectionAsync(cancellationToken);
-        return DbProvider.CreateCommand(commandText, connection);
+        await using var connection = DbProvider.CreateConnection(_connectionString, DatabaseType);
+        await connection.OpenAsync(cancellationToken);
+        await using var command = connection.CreateCommand();
+        command.CommandText = query;
+        return await operation(command);
     }
 
-    protected string FormatInsertQuery(string insertSql) => DbProvider.FormatInsertQuery(insertSql, _databaseType);
-
-    protected string GetCurrentDateFunction() => DbProvider.GetCurrentDateFunction(_databaseType);
-
-    protected string GetDateAddDaysExpression(string dateExpr, string daysParam) => DbProvider.GetDateAddDaysExpression(dateExpr, daysParam, _databaseType);
-
-    protected string GetDateHourExpression(string dateColumn) => DbProvider.GetDateHourExpression(dateColumn, _databaseType);
-
-    protected string GetDateMonthExpression(string dateColumn) => DbProvider.GetDateMonthExpression(dateColumn, _databaseType);
-
-    protected string GetDateDayExpression(string dateColumn) => DbProvider.GetDateDayExpression(dateColumn, _databaseType);
-
-    protected string GetCaseInsensitiveEqualsExpression(string columnName, string parameterName) => DbProvider.GetCaseInsensitiveEqualsExpression(columnName, parameterName, _databaseType);
-
-    public void Dispose()
+    protected string FormatInsertQuery(string query) => DatabaseType switch
     {
-        Dispose(disposing: true);
-        GC.SuppressFinalize(this);
-    }
+        DatabaseType.SqlServer => query.Replace(") VALUES", $") OUTPUT INSERTED.{GetIdColumn(query)} VALUES"),
+        DatabaseType.MySql => query + "; SELECT LAST_INSERT_ID();",
+        _ => query + "; SELECT last_insert_rowid();"
+    };
 
-    public async ValueTask DisposeAsync()
+    private static string GetIdColumn(string query)
     {
-        if (_connection is not null)
-        {
-            await _connection.DisposeAsync();
-        }
-
-        _disposed = true;
-        GC.SuppressFinalize(this);
+        if (query.Contains("tb_matricula")) return "id_matricula";
+        if (query.Contains("tb_colaborador")) return "id_colaborador";
+        if (query.Contains("tb_aluno")) return "id_aluno";
+        return "id_logradouro";
     }
 
-    protected virtual void Dispose(bool disposing)
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
+
+    protected string GetCurrentDateFunction() => DatabaseType switch
     {
-        if (_disposed)
-        {
-            return;
-        }
+        DatabaseType.SqlServer => "CAST(GETDATE() AS DATE)",
+        DatabaseType.MySql => "CURDATE()",
+        _ => "DATE('now')"
+    };
 
-        if (disposing)
-        {
-            _connection?.Dispose();
-        }
-
-        _disposed = true;
-    }
+    protected string GetDateAddDaysExpression(string date, string days) => DatabaseType switch
+    {
+        DatabaseType.SqlServer => $"DATEADD(day, {days}, {date})",
+        DatabaseType.MySql => $"DATE_ADD({date}, INTERVAL {days} DAY)",
+        _ => $"DATE({date}, '+' || {days} || ' days')"
+    };
 }

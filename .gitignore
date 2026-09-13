@@ -5,3 +5,11 @@ obj/
 *.user
 tmp/
 *.db
+AGENTS.md
+.codex/
+.agent/
+.ai/
+.cursor/
+.claude/
+.continue/
+.github/copilot-instructions.md

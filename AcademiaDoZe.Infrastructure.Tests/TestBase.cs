@@ -1,49 +1,39 @@
 using AcademiaDoZe.Infrastructure.Data;
 using Xunit;
 
-[assembly: CollectionBehavior(CollectionBehavior.CollectionPerAssembly, DisableTestParallelization = true)]
-
 namespace AcademiaDoZe.Infrastructure.Tests;
 
-public abstract class TestBase
+public abstract class TestBase : IAsyncLifetime
 {
-    private const DatabaseType SelectedDatabaseType = DatabaseType.SqlServer;
+    internal static DatabaseType DatabaseType => Environment.GetEnvironmentVariable("ACADEMIA_DATABASE")?.ToUpperInvariant() switch
+    {
+        "SQLSERVER" => AcademiaDoZe.Infrastructure.Data.DatabaseType.SqlServer,
+        "MYSQL" => AcademiaDoZe.Infrastructure.Data.DatabaseType.MySql,
+        _ => AcademiaDoZe.Infrastructure.Data.DatabaseType.Sqlite
+    };
 
-    protected string ConnectionString { get; }
-    protected DatabaseType DatabaseType { get; }
+    protected static string ConnectionString => DatabaseType switch
+    {
+        AcademiaDoZe.Infrastructure.Data.DatabaseType.SqlServer => "Server=localhost;Database=db_academia_do_ze;User Id=sa;Password=abcBolinhas12345;TrustServerCertificate=True;Encrypt=True;",
+        AcademiaDoZe.Infrastructure.Data.DatabaseType.MySql => "Server=localhost;Database=db_academia_do_ze;User Id=root;Password=abcBolinhas12345;",
+        _ => $"Data Source={Path.Combine(Path.GetTempPath(), "db_academia_do_ze.db")};Cache=Shared;"
+    };
+
     protected string NomeRua => "Henrique";
     protected string NomeBairro => "Agostinetto Piva";
     protected string NomeCidade => DatabaseType switch
     {
-        DatabaseType.SqlServer => "SQLServer",
-        DatabaseType.MySql => "MySQL",
-        DatabaseType.Sqlite => "SQLite",
-        _ => throw new ArgumentOutOfRangeException(nameof(DatabaseType), DatabaseType, "SGBD nao suportado para testes.")
+        AcademiaDoZe.Infrastructure.Data.DatabaseType.SqlServer => "SQLServer",
+        AcademiaDoZe.Infrastructure.Data.DatabaseType.MySql => "MySQL",
+        _ => "SQLite"
     };
 
-    protected TestBase()
-    {
-        DatabaseType = SelectedDatabaseType;
+    public async Task InitializeAsync() => await DbInitializer.InitializeAsync(ConnectionString, DatabaseType);
+    public Task DisposeAsync() => Task.CompletedTask;
 
-        var dbPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "db_academia_do_ze.db"));
-        Directory.CreateDirectory(Path.GetDirectoryName(dbPath)!);
-
-        ConnectionString = DatabaseType switch
-        {
-            DatabaseType.SqlServer => "Server=localhost;Database=db_academia_do_ze;User Id=sa;Password=abcBolinhas12345;TrustServerCertificate=True;Encrypt=False;",
-            DatabaseType.MySql => "Server=localhost;Database=db_academia_do_ze;User Id=root;Password=abcBolinhas12345;SslMode=None;AllowPublicKeyRetrieval=True;",
-            DatabaseType.Sqlite => $"Data Source={dbPath};Cache=Shared;",
-            _ => throw new ArgumentOutOfRangeException(nameof(DatabaseType), DatabaseType, "SGBD nao suportado para testes.")
-        };
-    }
-
-    private static int _counter = 10000;
-
-    protected static string GerarCep() => (80000000 + ((int)(DateTime.UtcNow.Ticks % 8000000)) + Interlocked.Increment(ref _counter)).ToString("D8")[..8];
-
-    protected static string GerarCpf() => (10000000000L + (DateTime.UtcNow.Ticks % 8000000000L) + Interlocked.Increment(ref _counter)).ToString("D11")[..11];
-
-    protected static string GerarEmail() => $"user_{Guid.NewGuid():N}@test.com";
-
-    protected static string GerarTelefone() => (49990000000L + (DateTime.UtcNow.Ticks % 8000000000L) + Interlocked.Increment(ref _counter)).ToString("D11")[..11];
+    protected static string GerarCpf() => Random.Shared.NextInt64(10000000000, 99999999999).ToString();
+    protected static string GerarCep() => Random.Shared.Next(10000000, 99999999).ToString();
+    protected static string GerarTelefone() => "119" + Random.Shared.Next(10000000, 99999999);
+    protected static string GerarEmail() => $"henrique{Guid.NewGuid():N}@academia.com";
+    internal static string SenhaTeste => $"Senha{DatabaseType}123";
 }

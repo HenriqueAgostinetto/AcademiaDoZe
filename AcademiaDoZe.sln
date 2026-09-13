@@ -1,4 +1,3 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -7,9 +6,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademiaDoZe.Domain", "Acad
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademiaDoZe.Tests", "AcademiaDoZe.Tests\AcademiaDoZe.Tests.csproj", "{650C4A07-D731-480A-905B-7E6AC46FF12A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademiaDoZe.Infrastructure.Tests", "AcademiaDoZe.Infrastructure.Tests\AcademiaDoZe.Infrastructure.Tests.csproj", "{D9B3ABDC-93B4-486F-A579-D5A9D7F365DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademiaDoZe.Infrastructure", "AcademiaDoZe.Infrastructure\AcademiaDoZe.Infrastructure.csproj", "{12E2D40A-54FC-49B6-B21F-7A7E89F6E83C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademiaDoZe.Infrastructure", "AcademiaDoZe.Infrastructure\AcademiaDoZe.Infrastructure.csproj", "{02975FDF-62C2-4CF1-94BC-61513D7141CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademiaDoZe.Infrastructure.Tests", "AcademiaDoZe.Infrastructure.Tests\AcademiaDoZe.Infrastructure.Tests.csproj", "{7C0D03CB-0E51-4FCF-9B1C-AF7A79931665}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,16 +24,13 @@ Global
 		{650C4A07-D731-480A-905B-7E6AC46FF12A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{650C4A07-D731-480A-905B-7E6AC46FF12A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{650C4A07-D731-480A-905B-7E6AC46FF12A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D9B3ABDC-93B4-486F-A579-D5A9D7F365DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D9B3ABDC-93B4-486F-A579-D5A9D7F365DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D9B3ABDC-93B4-486F-A579-D5A9D7F365DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D9B3ABDC-93B4-486F-A579-D5A9D7F365DE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{02975FDF-62C2-4CF1-94BC-61513D7141CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{02975FDF-62C2-4CF1-94BC-61513D7141CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{02975FDF-62C2-4CF1-94BC-61513D7141CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{02975FDF-62C2-4CF1-94BC-61513D7141CF}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
+		{12E2D40A-54FC-49B6-B21F-7A7E89F6E83C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12E2D40A-54FC-49B6-B21F-7A7E89F6E83C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12E2D40A-54FC-49B6-B21F-7A7E89F6E83C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12E2D40A-54FC-49B6-B21F-7A7E89F6E83C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C0D03CB-0E51-4FCF-9B1C-AF7A79931665}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C0D03CB-0E51-4FCF-9B1C-AF7A79931665}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C0D03CB-0E51-4FCF-9B1C-AF7A79931665}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C0D03CB-0E51-4FCF-9B1C-AF7A79931665}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

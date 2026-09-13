@@ -1,18 +1,6 @@
 namespace AcademiaDoZe.Infrastructure.Exceptions;
 
-public sealed class InfrastructureException : Exception
+public sealed class InfrastructureException(string errorCode, string message, Exception? innerException = null) : Exception(message, innerException)
 {
-    public string ErrorCode { get; }
-
-    public InfrastructureException(string errorCode, string message)
-        : base(message)
-    {
-        ErrorCode = errorCode;
-    }
-
-    public InfrastructureException(string errorCode, string message, Exception innerException)
-        : base(message, innerException)
-    {
-        ErrorCode = errorCode;
-    }
+    public string ErrorCode { get; } = errorCode;
 }

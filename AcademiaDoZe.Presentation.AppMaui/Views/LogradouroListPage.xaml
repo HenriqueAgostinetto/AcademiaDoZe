@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AcademiaDoZe.Presentation.AppMaui.Views.LogradouroListPage"
+             Title="Logradouros"
+             BackgroundColor="{StaticResource Surface}">
+    <Grid Padding="18" RowDefinitions="Auto,Auto,*" RowSpacing="12">
+        <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+            <Entry Placeholder="CEP, nome, bairro ou cidade" Text="{Binding Pesquisa}" />
+            <Button Grid.Column="1" Text="Buscar" Command="{Binding PesquisarCommand}" />
+            <Button Grid.Column="2" Text="Limpar" Command="{Binding LimparCommand}" BackgroundColor="{StaticResource Secondary}" />
+        </Grid>
+        <Button Grid.Row="1" Text="Novo logradouro" Command="{Binding NovoCommand}" />
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Logradouros}" SelectionMode="None">
+            <CollectionView.EmptyView>
+                <Label Text="Nenhum logradouro encontrado." HorizontalOptions="Center" VerticalOptions="Center" TextColor="#52616B" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="0,4" Padding="14" BackgroundColor="White" Stroke="#DFE5EC" StrokeShape="RoundRectangle 12">
+                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="8">
+                            <Label Text="{Binding Nome}" FontAttributes="Bold" FontSize="17" TextColor="{StaticResource Primary}" />
+                            <Label Grid.Row="1" Text="{Binding Bairro}" TextColor="#52616B" />
+                            <Label Grid.Row="2" Text="{Binding Cep}" TextColor="#52616B" />
+                            <VerticalStackLayout Grid.Column="1" Grid.RowSpan="3" Spacing="6">
+                                <Button Text="Editar" Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditarCommand}" CommandParameter="{Binding}" />
+                                <Button Text="Excluir" BackgroundColor="#9F2B2B" Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RemoverCommand}" CommandParameter="{Binding}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

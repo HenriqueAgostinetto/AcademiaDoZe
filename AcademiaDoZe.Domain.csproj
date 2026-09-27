@@ -11,6 +11,7 @@
     <Compile Remove="AcademiaDoZe.Infrastructure\**\*.cs" />
     <Compile Remove="AcademiaDoZe.Infrastructure.Tests\**\*.cs" />
     <Compile Remove="AcademiaDoZe.Application\**\*.cs" />
+    <Compile Remove="AcademiaDoZe.Presentation.AppMaui\**\*.cs" />
     <Compile Remove="tmp\**\*.cs" />
   </ItemGroup>
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AcademiaDoZe.Presentation.AppMaui.Views.DashboardPage"
+             Title="Dashboard"
+             BackgroundColor="{StaticResource Surface}">
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="20">
+            <Image Source="logo_henrique.png" HeightRequest="230" Aspect="AspectFit" />
+            <Label Text="Academia Do Ze" FontSize="30" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalTextAlignment="Center" />
+            <Label Text="Painel de controle" FontSize="16" TextColor="#52616B" HorizontalTextAlignment="Center" />
+            <Border BackgroundColor="{StaticResource Primary}" StrokeShape="RoundRectangle 18" Padding="24">
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="LOGRADOUROS CADASTRADOS" TextColor="White" FontAttributes="Bold" FontSize="13" />
+                    <Label Text="{Binding TotalLogradouros}" TextColor="{StaticResource Secondary}" FontSize="44" FontAttributes="Bold" />
+                </VerticalStackLayout>
+            </Border>
+            <Button Text="Gerenciar logradouros" Clicked="GerenciarClicked" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

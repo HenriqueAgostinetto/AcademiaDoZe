@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AcademiaDoZe.Presentation.AppMaui.Views.LogradouroPage"
+             Title="Logradouro"
+             BackgroundColor="{StaticResource Surface}">
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="10">
+            <Label Text="Dados do logradouro" FontSize="24" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+            <Label Text="CEP" />
+            <Entry Text="{Binding Cep}" Keyboard="Numeric" Placeholder="00000000" MaxLength="8" />
+            <Label Text="Nome" />
+            <Entry Text="{Binding Nome}" Placeholder="Rua, avenida ou travessa" />
+            <Label Text="Bairro" />
+            <Entry Text="{Binding Bairro}" />
+            <Label Text="Cidade" />
+            <Entry Text="{Binding Cidade}" />
+            <Label Text="Estado" />
+            <Entry Text="{Binding Estado}" Placeholder="SP" MaxLength="2" CharacterSpacing="1" />
+            <Label Text="Pais" />
+            <Entry Text="{Binding Pais}" />
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,16,0,0">
+                <Button Text="Salvar" Command="{Binding SalvarCommand}" />
+                <Button Grid.Column="1" Text="Cancelar" Command="{Binding CancelarCommand}" BackgroundColor="#6B7280" />
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

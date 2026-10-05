@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AcademiaDoZe.Presentation.AppMaui.Views.ConfigPage"
+             Title="Configuracoes"
+             BackgroundColor="{AppThemeBinding Light=#F5F7FA, Dark=#101827}">
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="18">
+            <Label Text="Configuracoes" FontSize="28" FontAttributes="Bold" TextColor="{AppThemeBinding Light=#0B1F3A, Dark=White}" />
+
+            <Border BackgroundColor="{AppThemeBinding Light=White, Dark=#172033}" Stroke="#31557D" StrokeShape="RoundRectangle 14" Padding="18">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Tema" FontSize="20" FontAttributes="Bold" TextColor="{AppThemeBinding Light=#0B1F3A, Dark=White}" />
+                    <Label Text="Escolha a aparencia da aplicacao" TextColor="{AppThemeBinding Light=#31557D, Dark=#BFD7F2}" />
+                    <Picker x:Name="TemaPicker" Title="Tema">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>light</x:String>
+                                <x:String>dark</x:String>
+                                <x:String>system</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Button Grid.Column="0" Text="Cancelar" Clicked="OnCancelarClicked" BackgroundColor="#6B7280" />
+                        <Button Grid.Column="1" Text="Salvar tema" Clicked="OnSalvarTemaClicked">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe161;" Color="White" />
+                            </Button.ImageSource>
+                        </Button>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border BackgroundColor="{AppThemeBinding Light=White, Dark=#172033}" Stroke="#31557D" StrokeShape="RoundRectangle 14" Padding="18">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Credenciais do banco" FontSize="20" FontAttributes="Bold" TextColor="{AppThemeBinding Light=#0B1F3A, Dark=White}" />
+                    <Label Text="Tipo de gerenciador" />
+                    <Picker x:Name="DatabaseTypePicker" SelectedIndexChanged="OnDatabaseTypeChanged" />
+
+                    <Border x:Name="SqliteInfoCard" IsVisible="False" BackgroundColor="{AppThemeBinding Light=#E5F0FC, Dark=#243A55}" StrokeShape="RoundRectangle 8" Padding="10">
+                        <Label Text="SQLite usa um arquivo local e nao precisa de servidor, usuario ou senha." TextColor="{AppThemeBinding Light=#0B4E8A, Dark=#C6E3FF}" />
+                    </Border>
+
+                    <VerticalStackLayout x:Name="SqliteContainer" IsVisible="False" Spacing="4">
+                        <Label Text="Caminho do arquivo .db" />
+                        <Entry x:Name="SqliteCaminhoEntry" Placeholder="Caminho do banco SQLite" />
+                    </VerticalStackLayout>
+
+                    <Grid x:Name="ServidorBancoGrid" ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Servidor" />
+                            <Entry x:Name="ServidorEntry" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                            <Label Text="Banco" />
+                            <Entry x:Name="BancoEntry" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Grid x:Name="CredenciaisGrid" ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Usuario" />
+                            <Entry x:Name="UsuarioEntry" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                            <Label Text="Senha" />
+                            <Entry x:Name="SenhaEntry" IsPassword="True" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Label x:Name="ComplementoLabel" Text="Complemento" />
+                    <Entry x:Name="ComplementoEntry" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Button Grid.Column="0" Text="Cancelar" Clicked="OnCancelarClicked" BackgroundColor="#6B7280" />
+                        <Button Grid.Column="1" Text="Salvar banco" Clicked="OnSalvarBdClicked">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe8b8;" Color="White" />
+                            </Button.ImageSource>
+                        </Button>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

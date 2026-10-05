@@ -12,17 +12,30 @@
 
     <Shell.ItemTemplate>
         <DataTemplate>
-            <Grid Padding="20,14">
-                <Label Text="{Binding Title}" TextColor="White" FontSize="15" VerticalOptions="Center" />
+            <Grid Padding="20,14" ColumnDefinitions="28,*" ColumnSpacing="10">
+                <Image Source="{Binding Icon}" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
+                <Label Grid.Column="1" Text="{Binding Title}" TextColor="White" FontSize="15" VerticalOptions="Center" />
             </Grid>
         </DataTemplate>
     </Shell.ItemTemplate>
 
     <FlyoutItem Title="Dashboard" FlyoutDisplayOptions="AsSingleItem">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe871;" Color="White" />
+        </FlyoutItem.Icon>
         <ShellContent Title="Dashboard" ContentTemplate="{DataTemplate views:DashboardPage}" Route="dashboard" />
     </FlyoutItem>
     <FlyoutItem Title="Logradouros" FlyoutDisplayOptions="AsSingleItem">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe7f1;" Color="White" />
+        </FlyoutItem.Icon>
         <ShellContent Title="Logradouros" ContentTemplate="{DataTemplate views:LogradouroListPage}" Route="logradouros" />
+    </FlyoutItem>
+    <FlyoutItem Title="Configuracoes" FlyoutDisplayOptions="AsSingleItem">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe8b8;" Color="White" />
+        </FlyoutItem.Icon>
+        <ShellContent Title="Configuracoes" ContentTemplate="{DataTemplate views:ConfigPage}" Route="configuracoes" />
     </FlyoutItem>
 
 </Shell>

@@ -14,12 +14,12 @@
                 <Setter Property="FontAttributes" Value="Bold" />
             </Style>
             <Style TargetType="Entry">
-                <Setter Property="BackgroundColor" Value="White" />
-                <Setter Property="TextColor" Value="{StaticResource Primary}" />
-                <Setter Property="PlaceholderColor" Value="#31557D" />
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=White, Dark=#172033}" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" />
+                <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light=#31557D, Dark=#BFD7F2}" />
             </Style>
             <Style TargetType="Label">
-                <Setter Property="TextColor" Value="{StaticResource Primary}" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

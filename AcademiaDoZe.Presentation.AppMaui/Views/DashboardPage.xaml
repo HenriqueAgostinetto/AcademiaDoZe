@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AcademiaDoZe.Presentation.AppMaui.Views.DashboardPage"
              Title="Dashboard"
-             BackgroundColor="{StaticResource Surface}">
+             BackgroundColor="{AppThemeBinding Light=#F5F7FA, Dark=#101827}">
     <ScrollView>
         <VerticalStackLayout Padding="24" Spacing="20">
             <Image Source="logo_henrique.png" HeightRequest="230" Aspect="AspectFit" />
-            <Label Text="Academia Do Ze" FontSize="30" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalTextAlignment="Center" />
-            <Label Text="Painel de controle" FontSize="16" TextColor="#52616B" HorizontalTextAlignment="Center" />
+            <Label Text="Academia Do Ze" FontSize="30" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" HorizontalTextAlignment="Center" />
+            <Label Text="Painel de controle" FontSize="16" TextColor="{AppThemeBinding Light=#52616B, Dark=#BFD7F2}" HorizontalTextAlignment="Center" />
             <Border BackgroundColor="{StaticResource Primary}" StrokeShape="RoundRectangle 18" Padding="24">
                 <VerticalStackLayout Spacing="6">
                     <Label Text="LOGRADOUROS CADASTRADOS" TextColor="White" FontAttributes="Bold" FontSize="13" />

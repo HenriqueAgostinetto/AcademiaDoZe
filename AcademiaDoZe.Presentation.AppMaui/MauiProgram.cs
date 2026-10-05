@@ -1,6 +1,8 @@
 ﻿// henrique agostinetto piva
-using AcademiaDoZe.Application.DependencyInjection;
+using AcademiaDoZe.Application.Mappings;
+using AcademiaDoZe.Application.Enums;
 using AcademiaDoZe.Infrastructure.Data;
+using AcademiaDoZe.Presentation.AppMaui.Configuration;
 using AcademiaDoZe.Presentation.AppMaui.ViewModels;
 using AcademiaDoZe.Presentation.AppMaui.Views;
 using Microsoft.Extensions.Logging;
@@ -14,22 +16,19 @@ public static class MauiProgram
 	public static MauiApp CreateMauiApp()
 	{
 		var builder = MauiApp.CreateBuilder();
-		var config = new RepositoryConfig
-		{
-			ConnectionString = $"Data Source={Path.Combine(FileSystem.AppDataDirectory, "academia_do_ze.db")}",
-			DatabaseType = DatabaseType.Sqlite
-		};
-		DbInitializer.InitializeAsync(config.ConnectionString, config.DatabaseType).GetAwaiter().GetResult();
+		var config = ConfigurationHelper.ObterConfiguracaoAtual();
+		if (config.DatabaseType == AppDatabaseType.Sqlite)
+			DbInitializer.InitializeAsync(config.ConnectionString, config.DatabaseType.ToDatabaseType()).GetAwaiter().GetResult();
 		builder
 			.UseMauiApp<App>()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+				fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
 			});
 
-		builder.Services.AddSingleton(config);
-		builder.Services.AddApplicationServices();
+		ConfigurationHelper.ConfigureServices(builder.Services);
 		builder.Services.AddSingleton<AppShell>();
 		builder.Services.AddTransient<DashboardPage>();
 		builder.Services.AddTransient<DashboardViewModel>();
@@ -37,6 +36,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<LogradouroListViewModel>();
 		builder.Services.AddTransient<LogradouroPage>();
 		builder.Services.AddTransient<LogradouroFormViewModel>();
+		builder.Services.AddTransient<ConfigPage>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

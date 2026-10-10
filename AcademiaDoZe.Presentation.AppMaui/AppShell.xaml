@@ -10,15 +10,6 @@
     Shell.TitleColor="White"
     Shell.UnselectedColor="White">
 
-    <Shell.ItemTemplate>
-        <DataTemplate>
-            <Grid Padding="20,14" ColumnDefinitions="28,*" ColumnSpacing="10">
-                <Image Source="{Binding Icon}" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
-                <Label Grid.Column="1" Text="{Binding Title}" TextColor="White" FontSize="15" VerticalOptions="Center" />
-            </Grid>
-        </DataTemplate>
-    </Shell.ItemTemplate>
-
     <FlyoutItem Title="Dashboard" FlyoutDisplayOptions="AsSingleItem">
         <FlyoutItem.Icon>
             <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe871;" Color="White" />
@@ -30,6 +21,18 @@
             <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe7f1;" Color="White" />
         </FlyoutItem.Icon>
         <ShellContent Title="Logradouros" ContentTemplate="{DataTemplate views:LogradouroListPage}" Route="logradouros" />
+    </FlyoutItem>
+    <FlyoutItem Title="Colaboradores" FlyoutDisplayOptions="AsSingleItem">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="MaterialIcons" Glyph="&#xea67;" Color="White" />
+        </FlyoutItem.Icon>
+        <ShellContent Title="Colaboradores" ContentTemplate="{DataTemplate views:ColaboradorListPage}" Route="colaboradores" />
+    </FlyoutItem>
+    <FlyoutItem Title="Alunos" FlyoutDisplayOptions="AsSingleItem">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe7fd;" Color="White" />
+        </FlyoutItem.Icon>
+        <ShellContent Title="Alunos" ContentTemplate="{DataTemplate views:AlunoListPage}" Route="alunos" />
     </FlyoutItem>
     <FlyoutItem Title="Configuracoes" FlyoutDisplayOptions="AsSingleItem">
         <FlyoutItem.Icon>

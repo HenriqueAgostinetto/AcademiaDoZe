@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AcademiaDoZe.Presentation.AppMaui.Views.AlunoListPage"
+             Title="Alunos"
+             BackgroundColor="{AppThemeBinding Light=#F5F7FA, Dark=#101827}">
+    <Grid Padding="18" RowDefinitions="Auto,Auto,*" RowSpacing="12">
+        <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+            <Entry Placeholder="Nome, CPF ou email" Text="{Binding Pesquisa}" />
+            <Button Grid.Column="1" Text="Buscar" Command="{Binding PesquisarCommand}" />
+            <Button Grid.Column="2" Text="Limpar" Command="{Binding LimparCommand}" BackgroundColor="{StaticResource Secondary}" />
+        </Grid>
+        <Button Grid.Row="1" Text="Novo aluno" Command="{Binding NovoCommand}" />
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Alunos}" SelectionMode="None">
+            <CollectionView.EmptyView>
+                <Label Text="Nenhum aluno encontrado." HorizontalOptions="Center" VerticalOptions="Center" TextColor="{AppThemeBinding Light=#52616B, Dark=#BFD7F2}" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="0,4" Padding="14" BackgroundColor="{AppThemeBinding Light=White, Dark=#172033}" Stroke="{AppThemeBinding Light=#DFE5EC, Dark=#31557D}" StrokeShape="RoundRectangle 12">
+                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="8">
+                            <Label Text="{Binding Nome}" FontAttributes="Bold" FontSize="17" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" />
+                            <Label Grid.Row="1" Text="{Binding Cpf}" TextColor="{AppThemeBinding Light=#52616B, Dark=#BFD7F2}" />
+                            <Label Grid.Row="2" Text="{Binding Email}" TextColor="{AppThemeBinding Light=#52616B, Dark=#BFD7F2}" />
+                            <VerticalStackLayout Grid.Column="1" Grid.RowSpan="3" Spacing="6">
+                                <Button Text="Editar" Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditarCommand}" CommandParameter="{Binding}" />
+                                <Button Text="Excluir" BackgroundColor="#9F2B2B" Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RemoverCommand}" CommandParameter="{Binding}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

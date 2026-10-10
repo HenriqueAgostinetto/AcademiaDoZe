@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:AcademiaDoZe.Presentation.AppMaui.Converters"
+             x:Class="AcademiaDoZe.Presentation.AppMaui.Views.ColaboradorPage"
+             Title="Colaborador"
+             BackgroundColor="{AppThemeBinding Light=#F5F7FA, Dark=#101827}">
+    <ContentPage.Resources>
+        <converters:DateOnlyToDateTimeConverter x:Key="DateOnlyConverter" />
+        <converters:EnumDisplayConverter x:Key="EnumDisplay" />
+        <converters:FotoToImageSourceConverter x:Key="FotoToImageSourceConverter" />
+    </ContentPage.Resources>
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="12">
+            <Label Text="Dados do colaborador" FontSize="24" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" />
+            <Label Text="{Binding Colaborador.Id, StringFormat='Colaborador ID: {0}'}" IsVisible="{Binding IsEditMode}" />
+
+            <Label Text="Nome" />
+            <Entry Text="{Binding Colaborador.Nome}" Placeholder="Digite o nome completo" MaxLength="150" />
+            <Label Text="CPF" />
+            <Entry Text="{Binding Colaborador.Cpf}" Placeholder="00000000000" Keyboard="Numeric" MaxLength="11" />
+            <Label Text="Data de nascimento" />
+            <DatePicker Date="{Binding Colaborador.DataNascimento, Converter={StaticResource DateOnlyConverter}, Mode=TwoWay}" Format="dd/MM/yyyy" />
+            <Label Text="Telefone" />
+            <Entry Text="{Binding Colaborador.Telefone}" Placeholder="11999999999" Keyboard="Telephone" MaxLength="11" />
+            <Label Text="Email" />
+            <Entry Text="{Binding Colaborador.Email}" Placeholder="email@exemplo.com" Keyboard="Email" MaxLength="150" />
+            <Label Text="Senha" />
+            <Entry Text="{Binding Colaborador.Senha}" Placeholder="Digite a senha" IsPassword="True" MaxLength="50" />
+            <Label Text="Deixe em branco para manter a senha atual." FontSize="11" IsVisible="{Binding IsEditMode}" TextColor="{AppThemeBinding Light=#52616B, Dark=#BFD7F2}" />
+            <Label Text="Confirmar senha" />
+            <Entry Text="{Binding ConfirmarSenha}" Placeholder="Confirme a senha" IsPassword="True" MaxLength="50" />
+
+            <Label Text="Foto" />
+            <Image Source="{Binding Colaborador.Foto, Converter={StaticResource FotoToImageSourceConverter}}" Aspect="AspectFill" HeightRequest="130" WidthRequest="130" BackgroundColor="{AppThemeBinding Light=#DFE5EC, Dark=#172033}" />
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Button Text="Galeria" Command="{Binding SelecionarFotoCommand}" />
+                <Button Grid.Column="1" Text="Camera" Command="{Binding TirarFotoCommand}" BackgroundColor="{StaticResource Secondary}" />
+            </Grid>
+
+            <Label Text="Endereco" FontSize="20" FontAttributes="Bold" Margin="0,12,0,0" />
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                <Entry Text="{Binding Colaborador.Endereco.Cep}" Placeholder="00000000" Keyboard="Numeric" MaxLength="8" />
+                <Button Grid.Column="1" Text="Buscar CEP" Command="{Binding BuscarCepCommand}" />
+            </Grid>
+            <Border Padding="12" IsVisible="{Binding HasEnderecoVinculado}" BackgroundColor="{AppThemeBinding Light=White, Dark=#172033}" StrokeShape="RoundRectangle 12">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="{Binding Colaborador.Endereco.Nome, StringFormat='Rua: {0}'}" />
+                    <Label Text="{Binding Colaborador.Endereco.Bairro, StringFormat='Bairro: {0}'}" />
+                    <Label Text="{Binding Colaborador.Endereco.Cidade, StringFormat='Cidade: {0}'}" />
+                    <Label Text="{Binding Colaborador.Endereco.Estado, StringFormat='Estado: {0}'}" />
+                </VerticalStackLayout>
+            </Border>
+            <Label Text="Nenhum logradouro vinculado." IsVisible="{Binding HasNoEnderecoVinculado}" TextColor="#9F2B2B" />
+            <Label Text="Numero" />
+            <Entry Text="{Binding Colaborador.Numero}" Placeholder="Numero" MaxLength="20" />
+            <Label Text="Complemento" />
+            <Entry Text="{Binding Colaborador.Complemento}" Placeholder="Complemento" MaxLength="100" />
+
+            <Label Text="Dados de trabalho" FontSize="20" FontAttributes="Bold" Margin="0,12,0,0" />
+            <Label Text="Data de admissao" />
+            <DatePicker Date="{Binding Colaborador.DataAdmissao, Converter={StaticResource DateOnlyConverter}, Mode=TwoWay}" Format="dd/MM/yyyy" />
+            <Label Text="Tipo" />
+            <Picker ItemsSource="{Binding ColaboradorTipos}" SelectedItem="{Binding Colaborador.Tipo}">
+                <Picker.ItemDisplayBinding>
+                    <Binding Converter="{StaticResource EnumDisplay}" />
+                </Picker.ItemDisplayBinding>
+            </Picker>
+            <Label Text="Vinculo" />
+            <Picker ItemsSource="{Binding ColaboradorVinculos}" SelectedItem="{Binding Colaborador.Vinculo}">
+                <Picker.ItemDisplayBinding>
+                    <Binding Converter="{StaticResource EnumDisplay}" />
+                </Picker.ItemDisplayBinding>
+            </Picker>
+
+            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" />
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,16,0,0">
+                <Button Text="Salvar" Command="{Binding SalvarCommand}" />
+                <Button Grid.Column="1" Text="Cancelar" Command="{Binding CancelarCommand}" BackgroundColor="#6B7280" />
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,3 +1,4 @@
+// henrique agostinetto piva
 using AcademiaDoZe.Domain.Entities;
 using AcademiaDoZe.Domain.ValueObjects;
 using AcademiaDoZe.Infrastructure.Exceptions;
@@ -15,9 +16,13 @@ public sealed class LogradouroInfrastructureTests : TestBase, IAsyncLifetime
         _repository = new LogradouroRepository(ConnectionString, DatabaseType);
     }
 
-    public Task InitializeAsync() => Task.CompletedTask;
+    public new async Task InitializeAsync() => await base.InitializeAsync();
 
-    public async Task DisposeAsync() => await _repository.DisposeAsync();
+    public new async Task DisposeAsync()
+    {
+        await _repository.DisposeAsync();
+        await base.DisposeAsync();
+    }
 
     private async Task<Logradouro> CriarEInserirLogradouroAsync()
     {

@@ -4,6 +4,7 @@ using AcademiaDoZe.Application.Enums;
 using AcademiaDoZe.Application.Interfaces;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 
 namespace AcademiaDoZe.Presentation.AppMaui.ViewModels;
 
@@ -27,14 +28,40 @@ public partial class ColaboradorViewModel(IColaboradorService service, ILogradou
     [ObservableProperty]
     private bool isBusy;
 
+    [ObservableProperty]
+    private LogradouroDto? enderecoSelecionado;
+
     public bool IsEditMode => Colaborador.Id > 0;
     public bool HasEnderecoVinculado => Colaborador.Endereco?.Id > 0;
     public bool HasNoEnderecoVinculado => !HasEnderecoVinculado;
+    public ObservableCollection<LogradouroDto> Logradouros { get; } = [];
 
     public void Definir(ColaboradorDto? item)
     {
         Colaborador = item ?? NovoColaborador();
         ConfirmarSenha = string.Empty;
+        EnderecoSelecionado = Logradouros.FirstOrDefault(logradouro => logradouro.Id == Colaborador.Endereco?.Id);
+    }
+
+    public async Task CarregarLogradourosAsync()
+    {
+        var selecionado = Colaborador.Endereco?.Id;
+        var itens = await _logradouroService.ObterTodosAsync();
+
+        Logradouros.Clear();
+        foreach (var item in itens.OrderBy(item => item.Nome)) Logradouros.Add(item);
+
+        EnderecoSelecionado = Logradouros.FirstOrDefault(logradouro => logradouro.Id == selecionado);
+    }
+
+    partial void OnEnderecoSelecionadoChanged(LogradouroDto? value)
+    {
+        if (value == null) return;
+
+        Colaborador.Endereco = value;
+        OnPropertyChanged(nameof(Colaborador));
+        OnPropertyChanged(nameof(HasEnderecoVinculado));
+        OnPropertyChanged(nameof(HasNoEnderecoVinculado));
     }
 
     [RelayCommand]
@@ -52,6 +79,7 @@ public partial class ColaboradorViewModel(IColaboradorService service, ILogradou
             }
 
             Colaborador.Endereco = endereco;
+            EnderecoSelecionado = Logradouros.FirstOrDefault(logradouro => logradouro.Id == endereco.Id);
             OnPropertyChanged(nameof(Colaborador));
             OnPropertyChanged(nameof(HasEnderecoVinculado));
             OnPropertyChanged(nameof(HasNoEnderecoVinculado));

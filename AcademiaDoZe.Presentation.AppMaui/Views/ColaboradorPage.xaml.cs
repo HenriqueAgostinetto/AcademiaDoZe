@@ -22,4 +22,10 @@ public partial class ColaboradorPage : ContentPage, IQueryAttributable
     {
         _viewModel.Definir(query.TryGetValue("colaborador", out var valor) ? valor as ColaboradorDto : null);
     }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await _viewModel.CarregarLogradourosAsync();
+    }
 }

@@ -22,4 +22,10 @@ public partial class AlunoPage : ContentPage, IQueryAttributable
     {
         _viewModel.Definir(query.TryGetValue("aluno", out var valor) ? valor as AlunoDto : null);
     }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await _viewModel.CarregarLogradourosAsync();
+    }
 }

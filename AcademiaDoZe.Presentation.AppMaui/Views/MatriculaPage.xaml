@@ -18,6 +18,10 @@
             <Border Padding="16" BackgroundColor="{AppThemeBinding Light=White, Dark=#172033}" StrokeShape="RoundRectangle 14">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Aluno" FontSize="19" FontAttributes="Bold" />
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8" IsEnabled="{Binding PodeSelecionarAluno}">
+                        <Entry Text="{Binding CpfPesquisa}" Placeholder="CPF do aluno" Keyboard="Numeric" ReturnCommand="{Binding BuscarCpfCommand}" />
+                        <Button Grid.Column="1" Text="Buscar CPF" Command="{Binding BuscarCpfCommand}" />
+                    </Grid>
                     <Picker ItemsSource="{Binding Alunos}" SelectedItem="{Binding AlunoSelecionado}" ItemDisplayBinding="{Binding Nome}" Title="Selecione o aluno" IsEnabled="{Binding PodeSelecionarAluno}" />
                     <Grid ColumnDefinitions="*,*" ColumnSpacing="8" IsVisible="{Binding HasAlunoVinculado}">
                         <Label Text="{Binding Matricula.AlunoMatricula.Cpf, StringFormat='CPF: {0}'}" />
@@ -79,6 +83,7 @@
                     <Label Text="Opcional" IsVisible="{Binding LaudoOpcional}" />
                     <Image Source="{Binding Matricula.LaudoMedico, Converter={StaticResource FotoToImageSourceConverter}}" HeightRequest="120" WidthRequest="120" Aspect="AspectFill" IsVisible="{Binding HasLaudo}" />
                     <Button Text="Selecionar imagem do laudo" Command="{Binding SelecionarLaudoCommand}" />
+                    <Button Text="Tirar foto do laudo" Command="{Binding TirarFotoLaudoCommand}" />
                     <Button Text="Remover laudo" Command="{Binding RemoverLaudoCommand}" IsVisible="{Binding HasLaudo}" BackgroundColor="#6B7280" />
                 </VerticalStackLayout>
             </Border>

@@ -25,6 +25,9 @@ public partial class MatriculaViewModel(IMatriculaService service, IAlunoService
     private AlunoDto? alunoSelecionado;
 
     [ObservableProperty]
+    private string cpfPesquisa = string.Empty;
+
+    [ObservableProperty]
     private bool isBusy;
 
     [ObservableProperty]
@@ -52,6 +55,7 @@ public partial class MatriculaViewModel(IMatriculaService service, IAlunoService
     {
         if (value == null) return;
         Matricula.AlunoMatricula = value;
+        CpfPesquisa = value.Cpf;
         OnPropertyChanged(nameof(Matricula));
         NotificarPropriedadesVisuais();
     }
@@ -68,6 +72,7 @@ public partial class MatriculaViewModel(IMatriculaService service, IAlunoService
                 ? await _service.ObterPorIdAsync(MatriculaId) ?? NovaMatricula()
                 : NovaMatricula();
             AlunoSelecionado = Alunos.FirstOrDefault(item => item.Id == Matricula.AlunoMatricula.Id);
+            CpfPesquisa = Matricula.AlunoMatricula.Cpf;
             MontarRestricoes();
             AtualizarDataFim();
         }
@@ -96,13 +101,77 @@ public partial class MatriculaViewModel(IMatriculaService service, IAlunoService
     }
 
     [RelayCommand]
+    private async Task BuscarCpfAsync()
+    {
+        if (IsBusy || IsEditMode) return;
+
+        if (string.IsNullOrWhiteSpace(CpfPesquisa))
+        {
+            await Shell.Current.DisplayAlertAsync("Atencao", "Informe o CPF do aluno.", "Ok");
+            return;
+        }
+
+        try
+        {
+            IsBusy = true;
+            var cpf = new string(CpfPesquisa.Where(char.IsDigit).ToArray());
+            var aluno = await _alunoService.ObterPorCpfAsync(cpf);
+            if (aluno == null)
+            {
+                await Shell.Current.DisplayAlertAsync("Atencao", "Aluno nao encontrado.", "Ok");
+                return;
+            }
+
+            AlunoSelecionado = Alunos.FirstOrDefault(item => item.Id == aluno.Id) ?? aluno;
+        }
+        catch (Exception exception)
+        {
+            await Shell.Current.DisplayAlertAsync("Atencao", exception.Message, "Ok");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    [RelayCommand]
     private async Task SelecionarLaudoAsync()
     {
-        var arquivo = await MediaPicker.Default.PickPhotosAsync(new MediaPickerOptions { Title = "Selecione a imagem do laudo" });
-        var selecionado = arquivo?.FirstOrDefault();
-        if (selecionado == null) return;
+        try
+        {
+            var arquivo = await FilePicker.Default.PickAsync(new PickOptions { PickerTitle = "Selecione a imagem do laudo", FileTypes = FilePickerFileType.Images });
+            await DefinirLaudoAsync(arquivo);
+        }
+        catch (Exception exception)
+        {
+            await Shell.Current.DisplayAlertAsync("Atencao", exception.Message, "Ok");
+        }
+    }
 
-        await using var stream = await selecionado.OpenReadAsync();
+    [RelayCommand]
+    private async Task TirarFotoLaudoAsync()
+    {
+        if (!MediaPicker.Default.IsCaptureSupported)
+        {
+            await Shell.Current.DisplayAlertAsync("Atencao", "Camera indisponivel neste dispositivo.", "Ok");
+            return;
+        }
+
+        try
+        {
+            await DefinirLaudoAsync(await MediaPicker.Default.CapturePhotoAsync());
+        }
+        catch (Exception exception)
+        {
+            await Shell.Current.DisplayAlertAsync("Atencao", exception.Message, "Ok");
+        }
+    }
+
+    private async Task DefinirLaudoAsync(FileResult? arquivo)
+    {
+        if (arquivo == null) return;
+
+        await using var stream = await arquivo.OpenReadAsync();
         using var memoria = new MemoryStream();
         await stream.CopyToAsync(memoria);
         Matricula.LaudoMedico = new ArquivoDto { Conteudo = memoria.ToArray() };

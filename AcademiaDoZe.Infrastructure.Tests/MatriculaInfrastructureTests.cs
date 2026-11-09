@@ -46,13 +46,18 @@ public class MatriculaInfrastructureTests : TestBase
     [Fact]
     public async Task Matricula_Atualizar_Sucesso()
     {
-        var matricula = await InfrastructureData.CriarMatriculaAsync(_matriculaRepository, _alunoRepository, _logradouroRepository);
+        var matricula = await InfrastructureData.CriarMatriculaAsync(_matriculaRepository, _alunoRepository, _logradouroRepository, restricoes: MatriculaRestricoes.Diabetes | MatriculaRestricoes.PressaoAlta);
         var aluno = await _alunoRepository.ObterPorId(matricula.AlunoId);
-        var atualizada = Matricula.Criar(matricula.Id, aluno!, MatriculaPlano.Anual, matricula.DataInicio, "henrique agostinetto piva", MatriculaRestricoes.Alergias, Arquivo.Criar([9, 8, 7]).Value!, InfrastructureData.SgbdTeste).Value!;
+        var restricoes = MatriculaRestricoes.Alergias | MatriculaRestricoes.ProblemasRespiratorios;
+        var laudo = Arquivo.Criar([9, 8, 7]).Value!;
+        var atualizada = Matricula.Criar(matricula.Id, aluno!, MatriculaPlano.Anual, matricula.DataInicio, "henrique agostinetto piva", restricoes, laudo, InfrastructureData.SgbdTeste).Value!;
         await _matriculaRepository.Atualizar(atualizada);
         var obtida = await _matriculaRepository.ObterPorId(matricula.Id);
         Assert.Equal(MatriculaPlano.Anual, obtida!.Plano);
-        Assert.Equal(MatriculaRestricoes.Alergias, obtida.RestricoesMedicas);
+        Assert.Equal(restricoes, obtida.RestricoesMedicas);
+        Assert.Equal(laudo.Conteudo, obtida.LaudoMedico!.Conteudo);
+        Assert.Equal(InfrastructureData.SgbdTeste, obtida.ObservacoesRestricoes);
+        Assert.Equal(matricula.DataInicio.AddYears(1), obtida.DataFim);
     }
 
     [Fact]

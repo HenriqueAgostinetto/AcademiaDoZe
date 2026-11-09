@@ -12,4 +12,6 @@ Task<bool> EmailJaExiste(Email email, int? id = null, CancellationToken cancella
 Task<IEnumerable<Colaborador>> ObterPorTipo(ColaboradorTipo tipo, CancellationToken cancellationToken = default);
 Task<IEnumerable<Colaborador>> ObterPorVinculo(ColaboradorVinculo vinculo, CancellationToken cancellationToken = default);
 Task<bool> TrocarSenha(int id, Senha novaSenha, CancellationToken cancellationToken = default);
+
+
 }

@@ -34,6 +34,12 @@
         </FlyoutItem.Icon>
         <ShellContent Title="Alunos" ContentTemplate="{DataTemplate views:AlunoListPage}" Route="alunos" />
     </FlyoutItem>
+    <FlyoutItem Title="Matriculas" FlyoutDisplayOptions="AsSingleItem">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="MaterialIcons" Glyph="&#xefec;" Color="White" />
+        </FlyoutItem.Icon>
+        <ShellContent Title="Matriculas" ContentTemplate="{DataTemplate views:MatriculaListPage}" Route="matriculas" />
+    </FlyoutItem>
     <FlyoutItem Title="Configuracoes" FlyoutDisplayOptions="AsSingleItem">
         <FlyoutItem.Icon>
             <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe8b8;" Color="White" />

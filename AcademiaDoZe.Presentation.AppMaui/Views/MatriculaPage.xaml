@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:AcademiaDoZe.Presentation.AppMaui.Converters"
+             xmlns:vm="clr-namespace:AcademiaDoZe.Presentation.AppMaui.ViewModels"
+             x:Class="AcademiaDoZe.Presentation.AppMaui.Views.MatriculaPage"
+             Title="Matricula"
+             BackgroundColor="{AppThemeBinding Light=#F5F7FA, Dark=#101827}">
+    <ContentPage.Resources>
+        <converters:DateOnlyToDateTimeConverter x:Key="DateOnlyConverter" />
+        <converters:FotoToImageSourceConverter x:Key="FotoToImageSourceConverter" />
+        <converters:EnumDisplayConverter x:Key="EnumDisplay" />
+    </ContentPage.Resources>
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="14">
+            <Label Text="Cadastro de matricula" FontSize="25" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" />
+
+            <Border Padding="16" BackgroundColor="{AppThemeBinding Light=White, Dark=#172033}" StrokeShape="RoundRectangle 14">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Aluno" FontSize="19" FontAttributes="Bold" />
+                    <Picker ItemsSource="{Binding Alunos}" SelectedItem="{Binding AlunoSelecionado}" ItemDisplayBinding="{Binding Nome}" Title="Selecione o aluno" IsEnabled="{Binding PodeSelecionarAluno}" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="8" IsVisible="{Binding HasAlunoVinculado}">
+                        <Label Text="{Binding Matricula.AlunoMatricula.Cpf, StringFormat='CPF: {0}'}" />
+                        <Label Grid.Column="1" Text="{Binding Matricula.AlunoMatricula.DataNascimento, StringFormat='Nascimento: {0:dd/MM/yyyy}'}" />
+                    </Grid>
+                    <Image Source="{Binding Matricula.AlunoMatricula.Foto, Converter={StaticResource FotoToImageSourceConverter}}" HeightRequest="90" WidthRequest="90" Aspect="AspectFill" HorizontalOptions="Start" IsVisible="{Binding HasAlunoVinculado}" />
+                    <Border Padding="10" BackgroundColor="{AppThemeBinding Light=#FEF3C7, Dark=#451A03}" StrokeShape="RoundRectangle 8" IsVisible="{Binding IsMenor16}">
+                        <Label Text="Aluno menor de 16 anos: o laudo medico e obrigatorio." TextColor="{AppThemeBinding Light=#92400E, Dark=#FDE68A}" FontSize="12" />
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="16" BackgroundColor="{AppThemeBinding Light=White, Dark=#172033}" StrokeShape="RoundRectangle 14">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Plano e vigencia" FontSize="19" FontAttributes="Bold" />
+                    <Label Text="Plano" />
+                    <Picker x:Name="PlanoPicker" ItemsSource="{Binding Planos}" SelectedItem="{Binding Matricula.Plano}" ItemDisplayBinding="{Binding ., Converter={StaticResource EnumDisplay}}" SelectedIndexChanged="PlanoPicker_SelectedIndexChanged" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <VerticalStackLayout>
+                            <Label Text="Data de inicio" />
+                            <DatePicker Date="{Binding Matricula.DataInicio, Converter={StaticResource DateOnlyConverter}, Mode=TwoWay}" Format="dd/MM/yyyy" DateSelected="InicioDatePicker_DateSelected" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="Data final" />
+                            <DatePicker x:Name="FimDatePicker" Date="{Binding Matricula.DataFim, Converter={StaticResource DateOnlyConverter}}" Format="dd/MM/yyyy" IsEnabled="False" />
+                        </VerticalStackLayout>
+                    </Grid>
+                    <Label Text="Objetivo" />
+                    <Entry Text="{Binding Matricula.Objetivo}" Placeholder="Ex.: condicionamento, hipertrofia, saude" MaxLength="150" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="16" BackgroundColor="{AppThemeBinding Light=White, Dark=#172033}" StrokeShape="RoundRectangle 14">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Saude e restricoes" FontSize="19" FontAttributes="Bold" />
+                    <CollectionView ItemsSource="{Binding Restricoes}" SelectionMode="None" HeightRequest="210">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:RestricaoSelectable">
+                                <Grid ColumnDefinitions="Auto,*" Padding="0,3">
+                                    <CheckBox IsChecked="{Binding IsSelected}" />
+                                    <Label Grid.Column="1" Text="{Binding Value, Converter={StaticResource EnumDisplay}}" VerticalOptions="Center" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    <Label Text="Observacoes e cuidados" />
+                    <Entry Text="{Binding Matricula.ObservacoesRestricoes}" Placeholder="Registre cuidados importantes" MaxLength="500" />
+                    <Border Padding="10" BackgroundColor="{AppThemeBinding Light=#FEF3C7, Dark=#451A03}" StrokeShape="RoundRectangle 8" IsVisible="{Binding HasRestricoes}">
+                        <Label Text="As restricoes selecionadas exigem laudo medico." TextColor="{AppThemeBinding Light=#92400E, Dark=#FDE68A}" FontSize="12" />
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="16" BackgroundColor="{AppThemeBinding Light=White, Dark=#172033}" StrokeShape="RoundRectangle 14">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Laudo medico" FontSize="19" FontAttributes="Bold" />
+                    <Label Text="Laudo anexado" IsVisible="{Binding HasLaudo}" TextColor="#166534" />
+                    <Label Text="Laudo obrigatorio" IsVisible="{Binding LaudoPendente}" TextColor="#9F2B2B" />
+                    <Label Text="Opcional" IsVisible="{Binding LaudoOpcional}" />
+                    <Image Source="{Binding Matricula.LaudoMedico, Converter={StaticResource FotoToImageSourceConverter}}" HeightRequest="120" WidthRequest="120" Aspect="AspectFill" IsVisible="{Binding HasLaudo}" />
+                    <Button Text="Selecionar imagem do laudo" Command="{Binding SelecionarLaudoCommand}" />
+                    <Button Text="Remover laudo" Command="{Binding RemoverLaudoCommand}" IsVisible="{Binding HasLaudo}" BackgroundColor="#6B7280" />
+                </VerticalStackLayout>
+            </Border>
+
+            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" />
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,4,0,12">
+                <Button Text="Salvar" Command="{Binding SalvarCommand}" />
+                <Button Grid.Column="1" Text="Cancelar" Command="{Binding CancelarCommand}" BackgroundColor="#6B7280" />
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

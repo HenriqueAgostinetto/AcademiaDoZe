@@ -1,3 +1,4 @@
+// henrique agostinetto piva
 using System.Data.Common;
 using AcademiaDoZe.Infrastructure.Data;
 
@@ -44,6 +45,8 @@ public abstract class BaseRepository : IAsyncDisposable
         if (query.Contains("tb_matricula")) return "id_matricula";
         if (query.Contains("tb_colaborador")) return "id_colaborador";
         if (query.Contains("tb_aluno")) return "id_aluno";
+        if (query.Contains("tb_acesso_colaborador")) return "id_acesso_colaborador";
+        if (query.Contains("tb_acesso_aluno")) return "id_acesso_aluno";
         return "id_logradouro";
     }
 

@@ -1,5 +1,6 @@
 ﻿// henrique agostinetto piva
 using AcademiaDoZe.Presentation.AppMaui.Message;
+using AcademiaDoZe.Presentation.AppMaui.Views;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace AcademiaDoZe.Presentation.AppMaui;
@@ -15,7 +16,7 @@ public partial class App : Microsoft.Maui.Controls.Application
 
 	protected override Window CreateWindow(IActivationState? activationState)
 	{
-		return new Window(new AppShell());
+		return new Window(new LoginPage());
 	}
 
 	private void AplicarTema() => UserAppTheme = Preferences.Get("Tema", "system") switch

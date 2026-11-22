@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AcademiaDoZe.Presentation.AppMaui.Views.AcessoPage"
+             Title="Acessos"
+             BackgroundColor="{AppThemeBinding Light=#F5F7FA, Dark=#101827}">
+    <ScrollView x:Name="Conteudo">
+        <VerticalStackLayout Padding="18" Spacing="18">
+            <Label Text="Controle de acessos" FontSize="24" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" />
+            <Label Text="Registre a entrada e a saida de alunos e colaboradores." TextColor="{AppThemeBinding Light=#52616B, Dark=#BFD7F2}" />
+
+            <Border Padding="16" BackgroundColor="{AppThemeBinding Light=White, Dark=#172033}" Stroke="{AppThemeBinding Light=#DFE5EC, Dark=#31557D}" StrokeShape="RoundRectangle 12">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Alunos" FontSize="20" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" />
+                    <Picker ItemsSource="{Binding Alunos}" SelectedItem="{Binding AlunoSelecionado}" ItemDisplayBinding="{Binding Nome}" Title="Selecione o aluno" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Button Text="Registrar entrada" Command="{Binding RegistrarEntradaAlunoCommand}" />
+                        <Button Grid.Column="1" Text="Registrar saida" Command="{Binding RegistrarSaidaAlunoCommand}" BackgroundColor="{StaticResource Secondary}" />
+                    </Grid>
+                    <CollectionView ItemsSource="{Binding AcessosAluno}" SelectionMode="None" HeightRequest="180">
+                        <CollectionView.EmptyView>
+                            <Label Text="Nenhum acesso de aluno registrado." HorizontalOptions="Center" VerticalOptions="Center" TextColor="{AppThemeBinding Light=#52616B, Dark=#BFD7F2}" />
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0,6" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                                    <Label Text="{Binding Aluno.Nome}" FontAttributes="Bold" />
+                                    <Label Grid.Row="1" Text="{Binding Entrada, StringFormat='Entrada: {0:dd/MM HH:mm}'}" TextColor="{AppThemeBinding Light=#52616B, Dark=#BFD7F2}" />
+                                    <Label Grid.Column="1" Grid.RowSpan="2" Text="{Binding Saida, StringFormat='Saida: {0:HH:mm}'}" VerticalOptions="Center" TextColor="{AppThemeBinding Light=#52616B, Dark=#BFD7F2}" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="16" BackgroundColor="{AppThemeBinding Light=White, Dark=#172033}" Stroke="{AppThemeBinding Light=#DFE5EC, Dark=#31557D}" StrokeShape="RoundRectangle 12">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Colaboradores" FontSize="20" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" />
+                    <Picker ItemsSource="{Binding Colaboradores}" SelectedItem="{Binding ColaboradorSelecionado}" ItemDisplayBinding="{Binding Nome}" Title="Selecione o colaborador" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Button Text="Registrar entrada" Command="{Binding RegistrarEntradaColaboradorCommand}" />
+                        <Button Grid.Column="1" Text="Registrar saida" Command="{Binding RegistrarSaidaColaboradorCommand}" BackgroundColor="{StaticResource Secondary}" />
+                    </Grid>
+                    <CollectionView ItemsSource="{Binding AcessosColaborador}" SelectionMode="None" HeightRequest="180">
+                        <CollectionView.EmptyView>
+                            <Label Text="Nenhum acesso de colaborador registrado." HorizontalOptions="Center" VerticalOptions="Center" TextColor="{AppThemeBinding Light=#52616B, Dark=#BFD7F2}" />
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0,6" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                                    <Label Text="{Binding Colaborador.Nome}" FontAttributes="Bold" />
+                                    <Label Grid.Row="1" Text="{Binding Entrada, StringFormat='Entrada: {0:dd/MM HH:mm}'}" TextColor="{AppThemeBinding Light=#52616B, Dark=#BFD7F2}" />
+                                    <Label Grid.Column="1" Grid.RowSpan="2" Text="{Binding Saida, StringFormat='Saida: {0:HH:mm}'}" VerticalOptions="Center" TextColor="{AppThemeBinding Light=#52616B, Dark=#BFD7F2}" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

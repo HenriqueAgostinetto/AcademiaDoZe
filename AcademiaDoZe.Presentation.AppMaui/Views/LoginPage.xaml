@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AcademiaDoZe.Presentation.AppMaui.Views.LoginPage"
+             BackgroundColor="{AppThemeBinding Light=#F5F7FA, Dark=#101827}">
+    <Grid Padding="{OnIdiom Phone='24', Tablet='80,40', Desktop='220,60', Default='40'}">
+        <Border BackgroundColor="{AppThemeBinding Light=White, Dark=#172033}"
+                Stroke="{AppThemeBinding Light=#DFE5EC, Dark=#31557D}"
+                StrokeShape="RoundRectangle 18"
+                Padding="{OnIdiom Phone='26', Desktop='36', Default='30'}"
+                VerticalOptions="Center">
+            <VerticalStackLayout Spacing="16">
+                <Image Source="logo_henrique.png" HeightRequest="100" Aspect="AspectFit" />
+                <Label Text="Academia Do Ze" FontSize="30" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                <Label Text="Entre para acessar o painel da academia" HorizontalTextAlignment="Center" TextColor="{AppThemeBinding Light={StaticResource MutedLight}, Dark={StaticResource MutedDark}}" />
+                <BoxView HeightRequest="1" Color="{AppThemeBinding Light=#DFE5EC, Dark=#31557D}" Margin="0,4" />
+                <Label Text="Login" FontAttributes="Bold" />
+                <Entry x:Name="LoginEntry" Placeholder="Digite seu login" ReturnType="Next" />
+                <Label Text="Senha" FontAttributes="Bold" />
+                <Entry x:Name="SenhaEntry" Placeholder="Digite sua senha" IsPassword="True" ReturnType="Go" Completed="OnLoginClicked" />
+                <Label x:Name="MensagemLabel" IsVisible="False" TextColor="#9F2B2B" HorizontalTextAlignment="Center" />
+                <Button x:Name="EntrarButton" Text="Entrar" Clicked="OnLoginClicked" />
+                <Border BackgroundColor="{AppThemeBinding Light=#E5F0FC, Dark=#243A55}" StrokeShape="RoundRectangle 10" Padding="12">
+                    <Label Text="Use as credenciais fornecidas pelo administrador para identificar seu perfil." FontSize="12" HorizontalTextAlignment="Center" TextColor="{AppThemeBinding Light=#0B4E8A, Dark=#C6E3FF}" />
+                </Border>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentPage>

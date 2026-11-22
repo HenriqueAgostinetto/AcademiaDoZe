@@ -1,3 +1,4 @@
+// henrique agostinetto piva
 using System.Data.Common;
 
 namespace AcademiaDoZe.Infrastructure.Data;
@@ -10,4 +11,6 @@ public static class DataReaderExtensions
     public static byte[] GetBytesValue(this DbDataReader reader, string name) => (byte[])reader[name];
     public static byte[]? GetNullableBytes(this DbDataReader reader, string name) => reader[name] is DBNull ? null : (byte[])reader[name];
     public static DateOnly GetDateOnlyValue(this DbDataReader reader, string name) => DateOnly.FromDateTime(Convert.ToDateTime(reader[name]));
+    public static DateTime GetDateTimeValue(this DbDataReader reader, string name) => Convert.ToDateTime(reader[name]);
+    public static DateTime? GetNullableDateTimeValue(this DbDataReader reader, string name) => reader[name] is DBNull ? null : Convert.ToDateTime(reader[name]);
 }

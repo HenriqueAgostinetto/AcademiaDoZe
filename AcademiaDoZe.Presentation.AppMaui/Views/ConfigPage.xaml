@@ -12,7 +12,7 @@
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Tema" FontSize="20" FontAttributes="Bold" TextColor="{AppThemeBinding Light=#0B1F3A, Dark=White}" />
                     <Label Text="Escolha a aparencia da aplicacao" TextColor="{AppThemeBinding Light=#31557D, Dark=#BFD7F2}" />
-                    <Picker x:Name="TemaPicker" Title="Tema">
+                    <Picker x:Name="TemaPicker" Title="Tema" HorizontalOptions="Fill" MinimumWidthRequest="220">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
                                 <x:String>light</x:String>

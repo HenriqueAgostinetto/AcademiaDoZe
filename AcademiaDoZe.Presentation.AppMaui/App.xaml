@@ -7,16 +7,27 @@
             <Color x:Key="Primary">#0B1F3A</Color>
             <Color x:Key="Secondary">#D9A441</Color>
             <Color x:Key="Surface">#F5F7FA</Color>
+            <Color x:Key="MutedLight">#52616B</Color>
+            <Color x:Key="MutedDark">#BFD7F2</Color>
             <Style TargetType="Button">
                 <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
                 <Setter Property="TextColor" Value="White" />
-                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="CornerRadius" Value="12" />
+                <Setter Property="HeightRequest" Value="46" />
                 <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="Padding" Value="18,0" />
             </Style>
             <Style TargetType="Entry">
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=White, Dark=#172033}" />
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" />
                 <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light=#31557D, Dark=#BFD7F2}" />
+                <Setter Property="HeightRequest" Value="48" />
+                <Setter Property="Margin" Value="0,2" />
+            </Style>
+            <Style TargetType="Picker">
+                <Setter Property="TitleColor" Value="{AppThemeBinding Light=#31557D, Dark=#BFD7F2}" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" />
+                <Setter Property="HeightRequest" Value="48" />
             </Style>
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" />

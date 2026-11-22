@@ -1,50 +1,96 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
     x:Class="AcademiaDoZe.Presentation.AppMaui.AppShell"
+    x:Name="ShellRaiz"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:templates="clr-namespace:AcademiaDoZe.Presentation.AppMaui.Templates"
     xmlns:views="clr-namespace:AcademiaDoZe.Presentation.AppMaui.Views"
     Title="Academia Do Ze"
     FlyoutBackgroundColor="{StaticResource Primary}"
     Shell.ForegroundColor="White"
     Shell.TitleColor="White"
-    Shell.UnselectedColor="White">
+    Shell.UnselectedColor="White"
+    Shell.ItemTemplate="{StaticResource FlyoutItemTemplateSelector}">
 
-    <FlyoutItem Title="Dashboard" FlyoutDisplayOptions="AsSingleItem">
+    <Shell.Resources>
+        <DataTemplate x:Key="FlyoutItemPadraoTemplate">
+            <Grid HeightRequest="52" Padding="14,6" ColumnDefinitions="42,*">
+                <Image Source="{Binding FlyoutIcon}" WidthRequest="24" HeightRequest="24" Aspect="Center" VerticalOptions="Center" />
+                <Label Grid.Column="1" Text="{Binding Title}" TextColor="White" FontFamily="OpenSansSemibold" VerticalOptions="Center" />
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="FlyoutItemContaTemplate">
+            <Grid HeightRequest="52" Padding="14,6" ColumnDefinitions="42,*">
+                <Image Source="{Binding Source={x:Reference ShellRaiz}, Path=FotoConta}" WidthRequest="28" HeightRequest="28" Aspect="AspectFill" VerticalOptions="Center">
+                    <Image.Clip>
+                        <EllipseGeometry Center="14,14" RadiusX="14" RadiusY="14" />
+                    </Image.Clip>
+                </Image>
+                <Label Grid.Column="1" Text="{Binding Title}" TextColor="White" FontFamily="OpenSansSemibold" VerticalOptions="Center" />
+            </Grid>
+        </DataTemplate>
+        <templates:FlyoutItemTemplateSelector x:Key="FlyoutItemTemplateSelector" PadraoTemplate="{StaticResource FlyoutItemPadraoTemplate}" ContaTemplate="{StaticResource FlyoutItemContaTemplate}" />
+    </Shell.Resources>
+
+    <FlyoutItem x:Name="DashboardItem" Title="Dashboard" FlyoutDisplayOptions="AsSingleItem">
         <FlyoutItem.Icon>
             <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe871;" Color="White" />
         </FlyoutItem.Icon>
         <ShellContent Title="Dashboard" ContentTemplate="{DataTemplate views:DashboardPage}" Route="dashboard" />
     </FlyoutItem>
-    <FlyoutItem Title="Logradouros" FlyoutDisplayOptions="AsSingleItem">
+    <FlyoutItem x:Name="LogradourosItem" Title="Logradouros" FlyoutDisplayOptions="AsSingleItem">
         <FlyoutItem.Icon>
             <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe7f1;" Color="White" />
         </FlyoutItem.Icon>
         <ShellContent Title="Logradouros" ContentTemplate="{DataTemplate views:LogradouroListPage}" Route="logradouros" />
     </FlyoutItem>
-    <FlyoutItem Title="Colaboradores" FlyoutDisplayOptions="AsSingleItem">
+    <FlyoutItem x:Name="ColaboradoresItem" Title="Colaboradores" FlyoutDisplayOptions="AsSingleItem">
         <FlyoutItem.Icon>
             <FontImageSource FontFamily="MaterialIcons" Glyph="&#xea67;" Color="White" />
         </FlyoutItem.Icon>
         <ShellContent Title="Colaboradores" ContentTemplate="{DataTemplate views:ColaboradorListPage}" Route="colaboradores" />
     </FlyoutItem>
-    <FlyoutItem Title="Alunos" FlyoutDisplayOptions="AsSingleItem">
+    <FlyoutItem x:Name="AlunosItem" Title="Alunos" FlyoutDisplayOptions="AsSingleItem">
         <FlyoutItem.Icon>
             <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe7fd;" Color="White" />
         </FlyoutItem.Icon>
         <ShellContent Title="Alunos" ContentTemplate="{DataTemplate views:AlunoListPage}" Route="alunos" />
     </FlyoutItem>
-    <FlyoutItem Title="Matriculas" FlyoutDisplayOptions="AsSingleItem">
+    <FlyoutItem x:Name="MatriculasItem" Title="Matriculas" FlyoutDisplayOptions="AsSingleItem">
         <FlyoutItem.Icon>
             <FontImageSource FontFamily="MaterialIcons" Glyph="&#xefec;" Color="White" />
         </FlyoutItem.Icon>
         <ShellContent Title="Matriculas" ContentTemplate="{DataTemplate views:MatriculaListPage}" Route="matriculas" />
     </FlyoutItem>
-    <FlyoutItem Title="Configuracoes" FlyoutDisplayOptions="AsSingleItem">
+    <FlyoutItem x:Name="AcessosItem" Title="Acessos" FlyoutDisplayOptions="AsSingleItem">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe8f9;" Color="White" />
+        </FlyoutItem.Icon>
+        <ShellContent Title="Acessos" ContentTemplate="{DataTemplate views:AcessoPage}" Route="acessos" />
+    </FlyoutItem>
+    <FlyoutItem x:Name="ConfiguracoesItem" Title="Configuracoes" FlyoutDisplayOptions="AsSingleItem">
         <FlyoutItem.Icon>
             <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe8b8;" Color="White" />
         </FlyoutItem.Icon>
         <ShellContent Title="Configuracoes" ContentTemplate="{DataTemplate views:ConfigPage}" Route="configuracoes" />
     </FlyoutItem>
+
+    <FlyoutItem x:Name="TreinosItem" Title="Treinos" FlyoutDisplayOptions="AsSingleItem">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe8f9;" Color="White" />
+        </FlyoutItem.Icon>
+        <ShellContent Title="Treinos" ContentTemplate="{DataTemplate views:TreinosPage}" Route="treinos" />
+    </FlyoutItem>
+    <FlyoutItem x:Name="MinhaContaItem" Title="Minha conta" FlyoutDisplayOptions="AsSingleItem">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe7fd;" Color="White" />
+        </FlyoutItem.Icon>
+        <ShellContent Title="Minha conta" ContentTemplate="{DataTemplate views:MinhaContaPage}" Route="minha-conta" />
+    </FlyoutItem>
+
+    <Shell.FlyoutFooter>
+        <Button Text="Sair" Clicked="OnSairClicked" BackgroundColor="{StaticResource Secondary}" Margin="14" />
+    </Shell.FlyoutFooter>
 
 </Shell>

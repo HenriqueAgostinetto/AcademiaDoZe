@@ -15,10 +15,14 @@ public static class ApplicationDependencyInjection
         services.AddTransient<IAlunoService, AlunoService>();
         services.AddTransient<IColaboradorService, ColaboradorService>();
         services.AddTransient<IMatriculaService, MatriculaService>();
+        services.AddTransient<IAcessoAlunoService, AcessoAlunoService>();
+        services.AddTransient<IAcessoColaboradorService, AcessoColaboradorService>();
         services.AddTransient(provider => (Func<ILogradouroRepository>)(() => { var config = provider.GetRequiredService<RepositoryConfig>(); return new LogradouroRepository(config.ConnectionString, config.DatabaseType); }));
         services.AddTransient(provider => (Func<IAlunoRepository>)(() => { var config = provider.GetRequiredService<RepositoryConfig>(); return new AlunoRepository(config.ConnectionString, config.DatabaseType); }));
         services.AddTransient(provider => (Func<IColaboradorRepository>)(() => { var config = provider.GetRequiredService<RepositoryConfig>(); return new ColaboradorRepository(config.ConnectionString, config.DatabaseType); }));
         services.AddTransient(provider => (Func<IMatriculaRepository>)(() => { var config = provider.GetRequiredService<RepositoryConfig>(); return new MatriculaRepository(config.ConnectionString, config.DatabaseType); }));
+        services.AddTransient(provider => (Func<IAcessoAlunoRepository>)(() => { var config = provider.GetRequiredService<RepositoryConfig>(); return new AcessoAlunoRepository(config.ConnectionString, config.DatabaseType); }));
+        services.AddTransient(provider => (Func<IAcessoColaboradorRepository>)(() => { var config = provider.GetRequiredService<RepositoryConfig>(); return new AcessoColaboradorRepository(config.ConnectionString, config.DatabaseType); }));
         return services;
     }
 }

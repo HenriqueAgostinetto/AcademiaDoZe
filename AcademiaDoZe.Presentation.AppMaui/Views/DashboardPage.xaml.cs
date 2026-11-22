@@ -1,5 +1,6 @@
 // henrique agostinetto piva
 using AcademiaDoZe.Presentation.AppMaui.ViewModels;
+using AcademiaDoZe.Presentation.AppMaui.Visual;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AcademiaDoZe.Presentation.AppMaui.Views;
@@ -20,6 +21,7 @@ public partial class DashboardPage : ContentPage
     {
         base.OnAppearing();
         _ = _viewModel.CarregarAsync();
+        _ = PageTransition.AparecerAsync(Conteudo);
     }
 
 	private async void GerenciarClicked(object? sender, EventArgs eventArgs) => await Shell.Current.GoToAsync("//logradouros");

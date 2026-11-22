@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AcademiaDoZe.Presentation.AppMaui.Views.TreinosPage"
+             Title="Treinos"
+             BackgroundColor="{AppThemeBinding Light=#F5F7FA, Dark=#101827}">
+    <ScrollView x:Name="Conteudo">
+        <VerticalStackLayout Padding="20" Spacing="16">
+            <Label Text="Meus treinos" FontSize="26" FontAttributes="Bold" />
+            <Label Text="Consulte o treino disponibilizado para voce." TextColor="{AppThemeBinding Light={StaticResource MutedLight}, Dark={StaticResource MutedDark}}" />
+            <Border BackgroundColor="{AppThemeBinding Light=White, Dark=#172033}" Stroke="{AppThemeBinding Light=#DFE5EC, Dark=#31557D}" StrokeShape="RoundRectangle 14" Padding="18">
+                <VerticalStackLayout Spacing="10">
+                    <Label x:Name="ListaTitulo" Text="Treinos disponiveis" FontSize="20" FontAttributes="Bold" />
+                    <CollectionView x:Name="TreinosCollection" SelectionMode="None" HeightRequest="240">
+                        <CollectionView.EmptyView>
+                            <Label Text="Nenhum treino disponivel para este perfil." HorizontalOptions="Center" VerticalOptions="Center" />
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,4" Padding="12" BackgroundColor="{AppThemeBinding Light=#E5F0FC, Dark=#243A55}" StrokeShape="RoundRectangle 10">
+                                    <VerticalStackLayout Spacing="3">
+                                        <Label Text="{Binding Dia}" FontSize="13" TextColor="{StaticResource Secondary}" FontAttributes="Bold" />
+                                        <Label Text="{Binding Nome}" FontAttributes="Bold" />
+                                        <Label Text="{Binding AlunoNome, StringFormat='Aluno: {0}'}" FontSize="13" />
+                                        <Label Text="{Binding PersonalNome, StringFormat='Treino feito pelo personal {0}'}" FontSize="13" TextColor="{StaticResource Secondary}" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+            <Border x:Name="GestaoTreinoCard" BackgroundColor="{AppThemeBinding Light=White, Dark=#172033}" Stroke="{AppThemeBinding Light=#DFE5EC, Dark=#31557D}" StrokeShape="RoundRectangle 14" Padding="18" IsVisible="False">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Adicionar treino" FontSize="20" FontAttributes="Bold" />
+                    <Picker x:Name="AlunoPicker" Title="Selecione o aluno" />
+                    <Entry x:Name="TreinoEntry" Placeholder="Nome ou descricao do treino" />
+                    <Button Text="Salvar treino" Clicked="OnSalvarTreinoClicked" />
+                    <Button Text="Importar arquivo de treino" Clicked="OnImportarTreinoClicked" BackgroundColor="{StaticResource Secondary}" />
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

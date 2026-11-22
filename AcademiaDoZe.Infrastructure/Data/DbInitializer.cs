@@ -1,3 +1,4 @@
+// henrique agostinetto piva
 using System.Data.Common;
 using Microsoft.Data.SqlClient;
 
@@ -44,9 +45,11 @@ public static class DbInitializer
         var createAluno = $"CREATE TABLE IF NOT EXISTS tb_aluno (id_aluno {id}, cpf {text}(11) NOT NULL UNIQUE, nome {text}(150) NOT NULL, nascimento DATE NOT NULL, telefone {text}(11) NOT NULL, email {text}(150) NOT NULL UNIQUE, logradouro_id INT NOT NULL, numero {text}(20) NOT NULL, complemento {text}(100) NULL, senha {text}(200) NOT NULL, foto {blob} NOT NULL)";
         var createColaborador = $"CREATE TABLE IF NOT EXISTS tb_colaborador (id_colaborador {id}, cpf {text}(11) NOT NULL UNIQUE, nome {text}(150) NOT NULL, nascimento DATE NOT NULL, telefone {text}(11) NOT NULL, email {text}(150) NOT NULL UNIQUE, logradouro_id INT NOT NULL, numero {text}(20) NOT NULL, complemento {text}(100) NULL, senha {text}(200) NOT NULL, foto {blob} NOT NULL, admissao DATE NOT NULL, tipo INT NOT NULL, vinculo INT NOT NULL)";
         var createMatricula = $"CREATE TABLE IF NOT EXISTS tb_matricula (id_matricula {id}, aluno_id INT NOT NULL, plano INT NOT NULL, data_inicio DATE NOT NULL, data_fim DATE NOT NULL, objetivo {text}(150) NOT NULL, restricao_medica INT NOT NULL, obs_restricao {text}(500) NULL, laudo_medico {blob} NULL)";
+        var createAcessoAluno = $"CREATE TABLE IF NOT EXISTS tb_acesso_aluno (id_acesso_aluno {id}, aluno_id INT NOT NULL, data_hora_entrada DATETIME NOT NULL, data_hora_saida DATETIME NULL)";
+        var createAcessoColaborador = $"CREATE TABLE IF NOT EXISTS tb_acesso_colaborador (id_acesso_colaborador {id}, colaborador_id INT NOT NULL, data_hora_entrada DATETIME NOT NULL, data_hora_saida DATETIME NULL)";
         return databaseType == DatabaseType.SqlServer
-            ? [WrapSqlServer(createLogradouro, "tb_logradouro"), WrapSqlServer(createAluno, "tb_aluno"), WrapSqlServer(createColaborador, "tb_colaborador"), WrapSqlServer(createMatricula, "tb_matricula")]
-            : [createLogradouro, createAluno, createColaborador, createMatricula];
+            ? [WrapSqlServer(createLogradouro, "tb_logradouro"), WrapSqlServer(createAluno, "tb_aluno"), WrapSqlServer(createColaborador, "tb_colaborador"), WrapSqlServer(createMatricula, "tb_matricula"), WrapSqlServer(createAcessoAluno, "tb_acesso_aluno"), WrapSqlServer(createAcessoColaborador, "tb_acesso_colaborador")]
+            : [createLogradouro, createAluno, createColaborador, createMatricula, createAcessoAluno, createAcessoColaborador];
     }
 
     private static string WrapSqlServer(string query, string table) => $"IF OBJECT_ID('{table}', 'U') IS NULL BEGIN {query.Replace("CREATE TABLE IF NOT EXISTS", "CREATE TABLE")} END";

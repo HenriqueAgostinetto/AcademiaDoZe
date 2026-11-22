@@ -212,6 +212,17 @@ public sealed class EntityTests
     public void AcessoAluno_Criar_DeveCriarAcessoValido() => Assert.True(AcessoAluno.Criar(1, TestData.Aluno().Value!, new DateTime(2026, 1, 1, 10, 0, 0)).IsSuccess);
 
     [Fact]
+    public void AcessoAluno_RegistrarSaida_DeveCalcularPermanencia()
+    {
+        var acesso = AcessoAluno.Criar(1, TestData.Aluno().Value!, new DateTime(2026, 1, 1, 10, 0, 0)).Value!;
+
+        var resultado = acesso.RegistrarSaida(new DateTime(2026, 1, 1, 11, 30, 0));
+
+        Assert.True(resultado.IsSuccess);
+        Assert.Equal(TimeSpan.FromMinutes(90), acesso.Permanencia);
+    }
+
+    [Fact]
     public void AcessoColaborador_Criar_DeveExigirColaborador() => Assert.True(AcessoColaborador.Criar(1, null, new DateTime(2026, 1, 1, 10, 0, 0)).IsFailure);
 
     [Fact]

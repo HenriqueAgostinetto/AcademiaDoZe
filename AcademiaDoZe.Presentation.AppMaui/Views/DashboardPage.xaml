@@ -3,20 +3,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AcademiaDoZe.Presentation.AppMaui.Views.DashboardPage"
              Title="Dashboard"
-             Padding="{OnPlatform Android='0,20,0,0', iOS='0,20,0,0', WinUI='0', MacCatalyst='0'}"
              BackgroundColor="{AppThemeBinding Light=#F5F7FA, Dark=#101827}">
-    <ScrollView>
-        <VerticalStackLayout Padding="{OnIdiom Phone='18', Tablet='32', Desktop='48,24', Default='24'}" Spacing="20">
-            <Image Source="logo_henrique.png" HeightRequest="{OnIdiom Phone=170, Tablet=230, Desktop=230, Default=200}" Aspect="AspectFit" />
-            <Label Text="Academia Do Ze" FontSize="30" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" HorizontalTextAlignment="Center" />
-            <Label Text="Painel de controle" FontSize="16" TextColor="{AppThemeBinding Light=#52616B, Dark=#BFD7F2}" HorizontalTextAlignment="Center" />
-            <Border BackgroundColor="{StaticResource Primary}" StrokeShape="RoundRectangle 18" Padding="24">
-                <VerticalStackLayout Spacing="6">
-                    <Label Text="LOGRADOUROS CADASTRADOS" TextColor="White" FontAttributes="Bold" FontSize="13" />
-                    <Label Text="{Binding TotalLogradouros}" TextColor="{StaticResource Secondary}" FontSize="44" FontAttributes="Bold" />
+    <ScrollView x:Name="Conteudo">
+        <VerticalStackLayout Padding="{OnIdiom Phone='18', Tablet='32', Desktop='48,28', Default='24'}" Spacing="20">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+                <Image Source="logo_henrique.png" HeightRequest="76" WidthRequest="76" Aspect="AspectFit" />
+                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                    <Label Text="Academia Do Ze" FontSize="28" FontAttributes="Bold" />
+                    <Label Text="{Binding Titulo}" FontSize="15" TextColor="{AppThemeBinding Light={StaticResource MutedLight}, Dark={StaticResource MutedDark}}" />
                 </VerticalStackLayout>
+            </Grid>
+            <Border BackgroundColor="{StaticResource Primary}" StrokeShape="RoundRectangle 16" Padding="22">
+                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="{Binding Titulo}" TextColor="White" FontSize="20" FontAttributes="Bold" />
+                        <Label Text="{Binding Subtitulo}" TextColor="#BFD7F2" />
+                    </VerticalStackLayout>
+                    <ActivityIndicator Grid.Column="1" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" Color="{StaticResource Secondary}" />
+                    <Label Grid.Row="1" Text="{Binding Destaque}" TextColor="{StaticResource Secondary}" FontAttributes="Bold" FontSize="16" Margin="0,18,0,0" />
+                </Grid>
             </Border>
-            <Button Text="Gerenciar logradouros" Clicked="GerenciarClicked" />
+            <CollectionView ItemsSource="{Binding Cards}" SelectionMode="None" HeightRequest="{Binding AlturaCards}">
+                <CollectionView.ItemsLayout><GridItemsLayout Span="2" Orientation="Vertical" HorizontalItemSpacing="12" VerticalItemSpacing="12" /></CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BackgroundColor="{AppThemeBinding Light=White, Dark=#172033}" Stroke="{AppThemeBinding Light=#DFE5EC, Dark=#31557D}" StrokeShape="RoundRectangle 14" Padding="16">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="{Binding Titulo}" FontAttributes="Bold" />
+                                <Label Text="{Binding Valor}" FontSize="32" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

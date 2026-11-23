@@ -26,7 +26,7 @@
                                 <Grid Padding="0,6" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
                                     <Label Text="{Binding Aluno.Nome}" FontAttributes="Bold" />
                                     <Label Grid.Row="1" Text="{Binding Entrada, StringFormat='Entrada: {0:dd/MM HH:mm}'}" TextColor="{AppThemeBinding Light=#52616B, Dark=#BFD7F2}" />
-                                    <Label Grid.Column="1" Grid.RowSpan="2" Text="{Binding Saida, StringFormat='Saida: {0:HH:mm}'}" VerticalOptions="Center" TextColor="{AppThemeBinding Light=#52616B, Dark=#BFD7F2}" />
+                                    <Label Grid.Column="1" Grid.RowSpan="2" Text="{Binding SituacaoSaida}" VerticalOptions="Center" TextColor="{AppThemeBinding Light=#52616B, Dark=#BFD7F2}" />
                                 </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
@@ -51,7 +51,7 @@
                                 <Grid Padding="0,6" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
                                     <Label Text="{Binding Colaborador.Nome}" FontAttributes="Bold" />
                                     <Label Grid.Row="1" Text="{Binding Entrada, StringFormat='Entrada: {0:dd/MM HH:mm}'}" TextColor="{AppThemeBinding Light=#52616B, Dark=#BFD7F2}" />
-                                    <Label Grid.Column="1" Grid.RowSpan="2" Text="{Binding Saida, StringFormat='Saida: {0:HH:mm}'}" VerticalOptions="Center" TextColor="{AppThemeBinding Light=#52616B, Dark=#BFD7F2}" />
+                                    <Label Grid.Column="1" Grid.RowSpan="2" Text="{Binding SituacaoSaida}" VerticalOptions="Center" TextColor="{AppThemeBinding Light=#52616B, Dark=#BFD7F2}" />
                                 </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

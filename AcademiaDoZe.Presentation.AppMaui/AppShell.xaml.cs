@@ -20,6 +20,7 @@ public partial class AppShell : Shell
 	public AppShell()
 	{
 		InitializeComponent();
+		FotoConta = ImageSource.FromFile("perfil_henrique.jpeg");
 		AplicarPermissoes();
 		Navigating += OnNavigating;
 		Routing.RegisterRoute(nameof(Views.LogradouroPage), typeof(Views.LogradouroPage));
@@ -46,8 +47,8 @@ public partial class AppShell : Shell
 			pessoa = (await colaboradores.ObterTodosAsync()).FirstOrDefault(item => item.Nome.Equals(nomeSessao, StringComparison.OrdinalIgnoreCase)) ?? (await colaboradores.ObterTodosAsync()).FirstOrDefault();
 		}
 
-		var foto = new FotoToImageSourceConverter().Convert(pessoa?.Foto, typeof(ImageSource), null, CultureInfo.CurrentCulture) as ImageSource;
-		if (foto != null) FotoConta = foto;
+		FotoConta = new FotoToImageSourceConverter().Convert(pessoa?.Foto, typeof(ImageSource), null, CultureInfo.CurrentCulture) as ImageSource
+			?? ImageSource.FromFile("perfil_henrique.jpeg");
 	}
 
 	private void AplicarPermissoes()

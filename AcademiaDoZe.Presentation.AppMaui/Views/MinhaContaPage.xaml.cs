@@ -62,6 +62,7 @@ public partial class MinhaContaPage : ContentPage
         EmailLabel.Text = pessoa.Email;
         EnderecoLabel.Text = pessoa.Endereco == null ? $"{pessoa.Numero} - {pessoa.Complemento}" : $"{pessoa.Endereco.Nome}, {pessoa.Numero} - {pessoa.Endereco.Bairro}, {pessoa.Endereco.Cidade}/{pessoa.Endereco.Estado}";
         SituacaoLabel.Text = situacao;
-        FotoImage.Source = new FotoToImageSourceConverter().Convert(pessoa.Foto, typeof(ImageSource), null, CultureInfo.CurrentCulture) as ImageSource;
+        FotoImage.Source = new FotoToImageSourceConverter().Convert(pessoa.Foto, typeof(ImageSource), null, CultureInfo.CurrentCulture) as ImageSource
+            ?? ImageSource.FromFile("perfil_henrique.jpeg");
     }
 }
